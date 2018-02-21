@@ -81,7 +81,7 @@ app.post('/movie', (req, res) => {
 
                     return res.json({
                         speech: "Here is something about " + name,
-                        displayText: "The movie " + name + 'was directed by ' + json.Director + 'in the year '+ json.Year,
+                        displayText: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
                         source: "first-dialogflow"
                     });
                 });
