@@ -92,7 +92,7 @@ app.post('/movie', (req, res) => {
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 8000, () => {
+server.listen(process.env.PORT || 8008, () => {
     console.log('Server is up and running');
 });
 
