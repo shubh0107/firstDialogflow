@@ -59,7 +59,7 @@ app.post('/movie', (req, res) => {
 
 
 
-    else if(req.body.result.parameters.movieName && !req.body.result.parameters.plot) {
+    else if(req.body.result.parameters.movieName) {
         const name = req.body.result.parameters.movieName;
         const resp = {};
         fetch(apiUrl + '&t=' + name)
@@ -79,8 +79,8 @@ app.post('/movie', (req, res) => {
 
                     return res.json({
                         speech: "Here is something about " + name,
-                        displayText: "The movie " + name + 'was directed by ' + json.Director + 'in the year '+ json.Year
-                        source: "first-dialogflow",
+                        displayText: "The movie " + name + 'was directed by ' + json.Director + 'in the year '+ json.Year,
+                        source: "first-dialogflow"
                     });
                 });
             })
