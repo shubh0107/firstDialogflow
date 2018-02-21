@@ -40,8 +40,10 @@ app.post('/movie', (req, res) => {
 
 
      if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
+         console.log('here');
         const plot = req.body.result.parameters.plot;
         const name = req.body.result.parameters.movieName;
+        console.log(apiUrl + '&t=' + name +'&plot=' + plot);
         fetch(apiUrl + '&t=' + name +'&plot=' + plot)
             .then(response => {
                 response.json().then(json => {
