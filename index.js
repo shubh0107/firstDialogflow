@@ -48,7 +48,7 @@ app.post('/movie', (req, res) => {
             .then(response => {
                 response.json().then(json => {
                     return res.json({
-                        speech: "Here you go",
+                        speech: "Here you go -\n" + json.Plot,
                         displayText: json.Plot,
                         source: "first-dialogflow",
                     });
@@ -80,7 +80,7 @@ app.post('/movie', (req, res) => {
                     console.log('Resp: ' + resp);*/
 
                     return res.json({
-                        speech: "Here is something about " + name,
+                        speech: "he movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
                         displayText: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
                         source: "first-dialogflow"
                     });
