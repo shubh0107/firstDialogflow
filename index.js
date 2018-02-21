@@ -37,37 +37,50 @@ app.get('/', (req, res) => {
 });
 
 app.post('/movie', (req, res) => {
-    const name = req.body.result.parameters.movieName;
-    const resp = {};
-    fetch(apiUrl + '&t=' + name)
-        .then(response => {
-            response.json().then(json => {
-                console.log(json);
-                console.log('Here');
-                resp.title = json.Title;
-                resp.director = json.Director;
-                resp.actors = json.Actors;
-                resp.plot = json.Plot;
-                resp.imdbRating = json.imdbRating;
 
-                console.log('Resp: ' + resp);
-                return res.json({
-                    speech: "Here is something about " + name,
-                    displayText: "Here is something about " + name,
-                    source: "first-dialogflow",
-                    data: {
-                        movieData: resp
-                    }
+    if(req.body.result.parameters.movieName) {
+        const name = req.body.result.parameters.movieName;
+        const resp = {};
+        fetch(apiUrl + '&t=' + name)
+            .then(response => {
+                response.json().then(json => {
+
+                    /*console.log(json);
+                    console.log('Here');
+                    resp.title = json.Title;
+                    resp.year = json.Year;
+                    resp.director = json.Director;
+                    resp.actors = json.Actors;
+                    resp.plot = json.Plot;
+                    resp.imdbRating = json.imdbRating;
+
+                    console.log('Resp: ' + resp);*/
+
+                    return res.json({
+                        speech: "Here is something about " + name,
+                        displayText: "The movie " + name + 'was directed by ' + json.Director + 'in the year '+ json.Year
+                        source: "first-dialogflow",
+                    });
                 });
+            })
+            .catch(error => {
+                console.log(error);
             });
+    }
 
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    /*res.json({
-        'working' : true
-    });*/
+    else if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
+        const plot = req.body.result.parameters.plot;
+        fetch(apiUrl + '&t=' + name +'&plot=' + plot)
+            .then(response => {
+                response.json().then(json => {
+                    return res.json({
+                        speech: "Here you go",
+                        displayText: json.Plot,
+                        source: "first-dialogflow",
+                    });
+                })
+            })
+    }
 });
 
 const server = http.createServer(app);
