@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/movie', (req, res) => {
-    const name = req.body.parameters.movieName;
+    const name = req.body.result.parameters.movieName;
     const resp = {};
     fetch(apiUrl + '&t=' + name)
         .then(response => {
