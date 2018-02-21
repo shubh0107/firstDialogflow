@@ -38,7 +38,28 @@ app.get('/', (req, res) => {
 
 app.post('/movie', (req, res) => {
 
-    if(req.body.result.parameters.movieName && !req.body.result.parameters.plot) {
+
+     if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
+        const plot = req.body.result.parameters.plot;
+        const name = req.body.result.parameters.movieName;
+        fetch(apiUrl + '&t=' + name +'&plot=' + plot)
+            .then(response => {
+                response.json().then(json => {
+                    return res.json({
+                        speech: "Here you go",
+                        displayText: json.Plot,
+                        source: "first-dialogflow",
+                    });
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+
+
+    else if(req.body.result.parameters.movieName && !req.body.result.parameters.plot) {
         const name = req.body.result.parameters.movieName;
         const resp = {};
         fetch(apiUrl + '&t=' + name)
@@ -66,21 +87,6 @@ app.post('/movie', (req, res) => {
             .catch(error => {
                 console.log(error);
             });
-    }
-
-    else if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
-        const plot = req.body.result.parameters.plot;
-        const name = req.body.result.parameters.movieName;
-        fetch(apiUrl + '&t=' + name +'&plot=' + plot)
-            .then(response => {
-                response.json().then(json => {
-                    return res.json({
-                        speech: "Here you go",
-                        displayText: json.Plot,
-                        source: "first-dialogflow",
-                    });
-                })
-            })
     }
 });
 
