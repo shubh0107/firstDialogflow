@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/movie', (req, res) => {
-    const name = req.body.movieName;
+    const name = req.body.parameters.movieName;
     const resp = {};
     fetch(apiUrl + '&t=' + name)
         .then(response => {
@@ -51,7 +51,14 @@ app.post('/movie', (req, res) => {
                 resp.imdbRating = json.imdbRating;
 
                 console.log('Resp: ' + resp);
-                res.json(resp);
+                return res.json({
+                    speech: "Here is something about " + name,
+                    displayText: "Here is something about " + name,
+                    source: "first-dialogflow",
+                    data: {
+                        movieData: resp
+                    }
+                });
             });
 
         })
@@ -64,8 +71,6 @@ app.post('/movie', (req, res) => {
 });
 
 const server = http.createServer(app);
-
-
 
 server.listen(process.env.PORT || 8000, () => {
     console.log('Server is up and running');
