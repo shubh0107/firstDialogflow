@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 app.post('/movie', (req, res) => {
 
-    if(req.body.result.parameters.movieName) {
+    if(req.body.result.parameters.movieName && !req.body.result.parameters.plot) {
         const name = req.body.result.parameters.movieName;
         const resp = {};
         fetch(apiUrl + '&t=' + name)
@@ -70,6 +70,7 @@ app.post('/movie', (req, res) => {
 
     else if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
         const plot = req.body.result.parameters.plot;
+        const name = req.body.result.parameters.movieName;
         fetch(apiUrl + '&t=' + name +'&plot=' + plot)
             .then(response => {
                 response.json().then(json => {
