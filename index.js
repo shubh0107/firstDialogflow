@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const http = require('http');
+const dialogflow = require('apiai');
 
 //const index = require('./routes/index');
 const users = require('./routes/users');
@@ -30,6 +31,12 @@ app.use('/users', users);
 
 
 const apiUrl = 'http://www.omdbapi.com/?i=tt3896198&apikey=89baa03e';
+
+
+
+
+
+
 
 
 app.get('/', (req, res) => {
@@ -92,6 +99,35 @@ app.post('/movie', (req, res) => {
     }
 });
 
+
+
+const dialogflowApp = dialogflow("3e6c4635183c4028a9fdbdcd4d9420ff");
+
+app.post('/getIntent', (req, res) => {
+    const textQuery = req.body.textQuery;
+
+    const queryRequest = dialogflowApp.textRequest(textQuery, {
+        sessionId: 'testDialogflowApp'
+    });
+
+    queryRequest.on('response', (response) => {
+        res.json(response);
+    });
+
+    queryRequest.on('error', (error) => {
+        res.json(error);
+    });
+
+    queryRequest.end();
+});
+
+
+
+
+
+
+
+
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 8008, () => {
@@ -115,5 +151,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
 
 module.exports = app;
