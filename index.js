@@ -46,34 +46,6 @@ app.get('/', (req, res) => {
 app.post('/movie', (req, res) => {
 
 
-    if (req.body.result.action === 'alarm.set') {
-        const textQuery = req.body.textQuery;
-
-        const queryRequest = woohooDialogflow.textRequest(textQuery, {
-            sessionId: 'woohooDialogflow'
-        });
-
-        queryRequest.on('response', (response) => {
-            console.log('In response.Working!');
-            return res.json({
-                speech: response.result.fulfillment.speech,
-                displayText: response.result.fulfillment.speech,
-                source: 'woohooDialogflowApi'
-            });
-        });
-
-        queryRequest.on('error', (error) => {
-            console.log('In error.Not working!');
-            console.log(error);
-            return res.json({
-                speech: 'Sorry, please repeat that again',
-                displayText: 'Sorry, please repeat that again',
-                source: 'woohooDialogflowApi'
-            });
-        });
-    }
-
-
      if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
          console.log('here');
         const plot = req.body.result.parameters.plot;
@@ -125,14 +97,12 @@ app.post('/movie', (req, res) => {
                 console.log(error);
             });
     }
-
 });
 
 const woohooDialogflow = dialogflow("b96d4903212a4c74ba11b5fa9e24080a");
 
 //const dialogflowApp = dialogflow("3e6c4635183c4028a9fdbdcd4d9420ff");
 
-/*
 app.post('/getIntent', (req, res) => {
     const textQuery = req.body.textQuery;
 
@@ -161,7 +131,6 @@ app.post('/getIntent', (req, res) => {
 
     queryRequest.end();
 });
-*/
 
 
 
