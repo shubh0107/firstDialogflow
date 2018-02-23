@@ -32,13 +32,6 @@ app.use('/users', users);
 
 const apiUrl = 'http://www.omdbapi.com/?i=tt3896198&apikey=89baa03e';
 
-
-
-
-
-
-
-
 app.get('/', (req, res) => {
     res.send('Working');
 });
@@ -87,7 +80,7 @@ app.post('/movie', (req, res) => {
                     console.log('Resp: ' + resp);*/
 
                     return res.json({
-                        speech: "he movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
+                        speech: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
                         displayText: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
                         source: "first-dialogflow"
                     });
