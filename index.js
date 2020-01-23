@@ -38,13 +38,14 @@ app.get('/', (req, res) => {
 
 app.post('/movie', (req, res) => {
 
+    console.log('req body: ', req.body);
 
-     if(req.body.result.parameters.movieName && req.body.result.parameters.plot) {
-         console.log('here');
-        const plot = req.body.result.parameters.plot;
-        const name = req.body.result.parameters.movieName;
-        console.log(apiUrl + '&t=' + name +'&plot=' + plot);
-        fetch(apiUrl + '&t=' + name +'&plot=' + plot)
+    if (req.body.queryResult.parameters.movieName && req.body.queryResult.parameters.plot) {
+        console.log('here');
+        const plot = req.body.queryResult.parameters.plot;
+        const name = req.body.queryResult.parameters.movieName;
+        console.log(apiUrl + '&t=' + name + '&plot=' + plot);
+        fetch(apiUrl + '&t=' + name + '&plot=' + plot)
             .then(response => {
                 response.json().then(json => {
                     return res.json({
@@ -61,8 +62,8 @@ app.post('/movie', (req, res) => {
 
 
 
-    else if(req.body.result.parameters.movieName) {
-        const name = req.body.result.parameters.movieName;
+    else if (req.body.queryResult.parameters.movieName) {
+        const name = req.body.queryResult.parameters.movieName;
         const resp = {};
         fetch(apiUrl + '&t=' + name)
             .then(response => {
@@ -80,8 +81,8 @@ app.post('/movie', (req, res) => {
                     console.log('Resp: ' + resp);*/
 
                     return res.json({
-                        speech: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
-                        displayText: "The movie " + name + ' was directed by ' + json.Director + ' in the year '+ json.Year,
+                        speech: "The movie " + name + ' was directed by ' + json.Director + ' in the year ' + json.Year,
+                        displayText: "The movie " + name + ' was directed by ' + json.Director + ' in the year ' + json.Year,
                         source: "first-dialogflow"
                     });
                 });
@@ -133,24 +134,23 @@ app.post('/getIntent', (req, res) => {
 
 
 const server = http.createServer(app);
-
 server.listen(process.env.PORT || 8008, () => {
     console.log('Server is up and running');
 });
 
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     const err = new Error('Not Found');
     err.status = 404;
     next(err);
