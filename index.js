@@ -40,10 +40,10 @@ app.post('/movie', (req, res) => {
 
     console.log('req body: ', req.body);
 
-    if (req.body.queryResult.parameters.movieName && req.body.queryResult.parameters.plot) {
+    if (req.body.result.parameters.movieName && req.body.result.parameters.plot) {
         console.log('here');
-        const plot = req.body.queryResult.parameters.plot;
-        const name = req.body.queryResult.parameters.movieName;
+        const plot = req.body.result.parameters.plot;
+        const name = req.body.result.parameters.movieName;
         console.log(apiUrl + '&t=' + name + '&plot=' + plot);
         fetch(apiUrl + '&t=' + name + '&plot=' + plot)
             .then(response => {
@@ -62,8 +62,8 @@ app.post('/movie', (req, res) => {
 
 
 
-    else if (req.body.queryResult.parameters.movieName) {
-        const name = req.body.queryResult.parameters.movieName;
+    else if (req.body.result.parameters.movieName) {
+        const name = req.body.result.parameters.movieName;
         const resp = {};
         fetch(apiUrl + '&t=' + name)
             .then(response => {
@@ -134,6 +134,7 @@ app.post('/getIntent', (req, res) => {
 
 
 const server = http.createServer(app);
+
 server.listen(process.env.PORT || 8008, () => {
     console.log('Server is up and running');
 });
